@@ -23,10 +23,13 @@ class aNotepad extends JFrame {
         JMenu menu1 = new JMenu("File");
         menuBar.add(menu1);
         JMenuItem item1_1 = new JMenuItem("New");
-        item1_1.addActionListener(new ActionListener() {//为按钮添加事件
+
+        JMenuItem item1_2 = new JMenuItem("Open");
+        item1_2.addActionListener(new ActionListener() {//为按钮添加事件
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 JFileChooser fileChooser = new JFileChooser();//创建文件选择器
+
                 int i = fileChooser.showOpenDialog(getContentPane());//显示文件选择器
                 if (i == JFileChooser.APPROVE_OPTION) {//如果返回1就将文件内容读取到文本框
                     File selectedFile = fileChooser.getSelectedFile();
@@ -44,7 +47,6 @@ class aNotepad extends JFrame {
                 }
             }
         });
-        JMenuItem item1_2 = new JMenuItem("Open");
         JMenuItem item1_3 = new JMenuItem("Save");
         JMenuItem item1_4 = new JMenuItem("Save As...");
         JMenuItem item1_5 = new JMenuItem("Print...");
