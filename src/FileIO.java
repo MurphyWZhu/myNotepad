@@ -28,4 +28,10 @@ public class FileIO {
         bw.write(writeText);
         bw.close();
     }
+    public void createFile() throws IOException{
+        File file = new File(this.file);
+        if(!file.exists()){
+            file.createNewFile();
+        }
+    }
 }
