@@ -16,14 +16,22 @@ public class Gui {
 class aNotepad extends JFrame {
     public String openingFile = null;
     public String copyText = null;
+
     public aNotepad() {
-        JTextArea chatContent = new JTextArea(12, 34);
+        this.setLayout(new BorderLayout());
+        JTextArea chatContent = new JTextArea();
+
+        this.setTitle("Notepad");
+        this.setSize(500, 500);
+
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JScrollPane showPanel = new JScrollPane(chatContent);
         JMenuBar menuBar = new JMenuBar();
         this.setJMenuBar(menuBar);
 
         JMenu menu1 = new JMenu("文件");
         menuBar.add(menu1);
+        /****************************新建文件**********************************/
         JMenuItem item1_1 = new JMenuItem("新建");
         item1_1.addActionListener(new ActionListener() {
             @Override
@@ -43,6 +51,7 @@ class aNotepad extends JFrame {
                 }
             }
         });
+        /**********************************打开文件*****************************************/
         JMenuItem item1_2 = new JMenuItem("打开");
         item1_2.addActionListener(new ActionListener() {//为按钮添加事件
             @Override
@@ -67,6 +76,7 @@ class aNotepad extends JFrame {
                 }
             }
         });
+        /*****************************保存文件************************************/
         JMenuItem item1_3 = new JMenuItem("保存");
         item1_3.addActionListener(new ActionListener() {
             @Override
@@ -100,6 +110,7 @@ class aNotepad extends JFrame {
                 }
             }
         });
+        /****************************文件另存为************************************/
         JMenuItem item1_4 = new JMenuItem("另存为...");
         item1_4.addActionListener(new ActionListener() {
             @Override
@@ -124,14 +135,15 @@ class aNotepad extends JFrame {
                 }
             }
         });
+        /******************************打印文件***************************************/
         JMenuItem item1_5 = new JMenuItem("打印...");
         item1_5.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                JDialog dialog = new JDialog(aNotepad.this,true);
+                JDialog dialog = new JDialog(aNotepad.this, true);
                 dialog.setTitle("打印");
-                dialog.setSize(200,200);
-                dialog.setLocation(200,200);
+                dialog.setSize(200, 200);
+                dialog.setLocation(200, 200);
                 dialog.setVisible(true);
             }
         });
@@ -142,6 +154,8 @@ class aNotepad extends JFrame {
                 System.exit(0);
             }
         });
+
+        //>>>>>>>>添加菜单>>>>>>>>>
         menu1.add(item1_1);
         menu1.add(item1_2);
         menu1.addSeparator();
@@ -150,11 +164,17 @@ class aNotepad extends JFrame {
         menu1.addSeparator();
         menu1.add(item1_5);
         menu1.add(item1_6);
+        //<<<<<<<<<<<<<<<<<<<<<<<
 
         JMenu menu2 = new JMenu("编辑");
         menuBar.add(menu2);
+        /********************撤销*************************/
         JMenuItem item2_1 = new JMenuItem("Undo");
+        /********************重做***************************/
         JMenuItem item2_2 = new JMenuItem("Redo");
+        /************************剪切*******************************
+         ****************** 将选中内容赋值给copyText *****************
+         ********************之后删除选择内容*************************/
         JMenuItem item2_3 = new JMenuItem("剪切");
         item2_3.addActionListener(new ActionListener() {
             @Override
@@ -163,6 +183,9 @@ class aNotepad extends JFrame {
                 chatContent.replaceSelection("");
             }
         });
+        /************************复制*******************************
+         ****************** 将选中内容赋值给copyText *****************
+         **********************************************************/
         JMenuItem item2_4 = new JMenuItem("复制");
         item2_4.addActionListener(new ActionListener() {
             @Override
@@ -170,6 +193,9 @@ class aNotepad extends JFrame {
                 copyText = chatContent.getSelectedText();
             }
         });
+        /**************************粘贴*************************
+         ************** 将选中内容替换为copyText中的内容 **********
+         ******************************************************/
         JMenuItem item2_5 = new JMenuItem("粘贴");
         item2_5.addActionListener(new ActionListener() {
             @Override
@@ -177,6 +203,9 @@ class aNotepad extends JFrame {
                 chatContent.replaceSelection(copyText);
             }
         });
+        /**************************删除**************************
+         ***************** 将选中内容替换为空("") *****************
+         *******************************************************/
         JMenuItem item2_6 = new JMenuItem("删除");
         item2_6.addActionListener(new ActionListener() {
             @Override
@@ -184,6 +213,7 @@ class aNotepad extends JFrame {
                 chatContent.replaceSelection("");
             }
         });
+        /***************************全选*****************************/
         JMenuItem item2_7 = new JMenuItem("全选");
         item2_7.addActionListener(new ActionListener() {
             @Override
@@ -204,7 +234,7 @@ class aNotepad extends JFrame {
         menu2.add(item2_8);
 
 
-        JMenu menu3 = new JMenu("View");
+        JMenu menu3 = new JMenu("显示");
         menuBar.add(menu3);
         JMenuItem item3_1 = new JMenuItem("Word Wrap");
         JMenuItem item3_2 = new JMenuItem("Truncation");
@@ -216,17 +246,57 @@ class aNotepad extends JFrame {
         menu3.add(item3_3);
         menu3.add(item3_4);
 
-        JMenu menu4 = new JMenu("Help");
+        JMenu menu4 = new JMenu("帮助");
         menuBar.add(menu4);
-        JMenuItem item4_1 = new JMenuItem("View Help...");
-        JMenuItem item4_2 = new JMenuItem("About Notepad...");
+        JMenuItem item4_1 = new JMenuItem("显示帮助...");
+        item4_1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                JDialog dialog = new JDialog(aNotepad.this, true);
+                dialog.setTitle("帮助");
+                dialog.setSize(200, 200);
+                dialog.setLocation(200, 200);
+                dialog.setVisible(true);
+            }
+        });
+        JMenuItem item4_2 = new JMenuItem("关于 Notepad...");
+        item4_2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                GridBagLayout layout = new GridBagLayout();
+                GridBagConstraints c = new GridBagConstraints();
+
+                JDialog dialog = new JDialog(aNotepad.this, true);
+                dialog.setLayout(layout);
+                dialog.setTitle("关于 Notepad...");
+                c.gridheight =3;
+                //ImageIcon img = new ImageIcon("img/notepad.jpg");
+                JLabel label0 = new JLabel(new ImageIcon("img/notepad.jpg"));
+
+                JLabel label1 = new JLabel();
+                label1.setText("Notepad");
+                JLabel label2 = new JLabel();
+                label2.setText("Version 1.0");
+                JLabel label3 = new JLabel();
+                label3.setText("JRE Version 11");
+                dialog.add(label0,c);
+                c.gridwidth=GridBagConstraints.REMAINDER;
+                c.gridheight =1;
+                c.weighty=1;
+                dialog.add(label1,c);
+                dialog.add(label2,c);
+                dialog.add(label3,c);
+                JLabel label4 = new JLabel();
+                label4.setText("By OpenJDK11");
+                dialog.add(label4,c);
+                dialog.setSize(500, 500);
+                dialog.setLocation(200, 200);
+                dialog.setVisible(true);
+            }
+        });
         menu4.add(item4_1);
         menu4.add(item4_2);
-        this.add(showPanel);
-        this.setTitle("Notepad");
-        this.setSize(500, 500);
-        this.setLayout(new FlowLayout());
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.add(showPanel,BorderLayout.CENTER);
         this.setVisible(true);
 
     }
