@@ -15,7 +15,7 @@ public class Gui {
 
 class aNotepad extends JFrame {
     public String openingFile = null;
-
+    public String copyText = null;
     public aNotepad() {
         JTextArea chatContent = new JTextArea(12, 34);
         JScrollPane showPanel = new JScrollPane(chatContent);
@@ -151,16 +151,47 @@ class aNotepad extends JFrame {
         menu1.add(item1_5);
         menu1.add(item1_6);
 
-        JMenu menu2 = new JMenu("Edit");
+        JMenu menu2 = new JMenu("编辑");
         menuBar.add(menu2);
         JMenuItem item2_1 = new JMenuItem("Undo");
         JMenuItem item2_2 = new JMenuItem("Redo");
-        JMenuItem item2_3 = new JMenuItem("Cut");
-        JMenuItem item2_4 = new JMenuItem("Copy");
-        JMenuItem item2_5 = new JMenuItem("Paste");
-        JMenuItem item2_6 = new JMenuItem("Delete");
-        JMenuItem item2_7 = new JMenuItem("Select All");
-        JMenuItem item2_8 = new JMenuItem("Find And Replace...");
+        JMenuItem item2_3 = new JMenuItem("剪切");
+        item2_3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                copyText = chatContent.getSelectedText();
+                chatContent.replaceSelection("");
+            }
+        });
+        JMenuItem item2_4 = new JMenuItem("复制");
+        item2_4.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                copyText = chatContent.getSelectedText();
+            }
+        });
+        JMenuItem item2_5 = new JMenuItem("粘贴");
+        item2_5.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                chatContent.replaceSelection(copyText);
+            }
+        });
+        JMenuItem item2_6 = new JMenuItem("删除");
+        item2_6.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                chatContent.replaceSelection("");
+            }
+        });
+        JMenuItem item2_7 = new JMenuItem("全选");
+        item2_7.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                chatContent.selectAll();
+            }
+        });
+        JMenuItem item2_8 = new JMenuItem("查找和替换");
         menu2.add(item2_1);
         menu2.add(item2_2);
         menu2.addSeparator();
