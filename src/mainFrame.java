@@ -1,26 +1,14 @@
 import javax.swing.*;
-import javax.swing.event.UndoableEditEvent;
-import javax.swing.event.UndoableEditListener;
 import javax.swing.undo.UndoManager;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
-public class Gui {
-    public static void main(String[] args) {
-        System.out.println("Hello");
-        new aNotepad();
-    }
-
-}
-
-class aNotepad extends JFrame {
+public class mainFrame extends JFrame {
     public String openingFile = null;
     public String copyText = null;
 
-    public aNotepad() {
+    public mainFrame() {
         this.setLayout(new BorderLayout());
         JTextArea mainChatContent = new JTextArea();
         this.setTitle("Notepad");
@@ -54,7 +42,6 @@ class aNotepad extends JFrame {
                 }
             }
         });
-        /**********************************打开文件*****************************************/
         JMenuItem openItem = new JMenuItem("打开");
         //为按钮添加事件
         openItem.addActionListener(actionEvent -> {
@@ -72,7 +59,6 @@ class aNotepad extends JFrame {
                 }
             }
         });
-        /*****************************保存文件************************************/
         JMenuItem saveItem = new JMenuItem("保存");
         saveItem.addActionListener(actionEvent -> {
             if (openingFile != null) {
@@ -103,7 +89,6 @@ class aNotepad extends JFrame {
                 }
             }
         });
-        /****************************文件另存为************************************/
         JMenuItem saveAsItem = new JMenuItem("另存为...");
         saveAsItem.addActionListener(actionEvent -> {
             JFileChooser fileChooser = new JFileChooser();
@@ -125,10 +110,9 @@ class aNotepad extends JFrame {
                 }
             }
         });
-        /******************************打印文件***************************************/
         JMenuItem printItem = new JMenuItem("打印...");
         printItem.addActionListener(actionEvent -> {
-            JDialog dialog = new JDialog(aNotepad.this, true);
+            JDialog dialog = new JDialog(mainFrame.this, true);
             dialog.setTitle("打印");
             dialog.setSize(200, 200);
             dialog.setLocation(200, 200);
@@ -150,51 +134,37 @@ class aNotepad extends JFrame {
 
         JMenu menuEdit = new JMenu("编辑");
         menuBar.add(menuEdit);
-        /********************撤销*************************/
         JMenuItem undoItem = new JMenuItem("撤销");
         undoItem.addActionListener(actionEvent -> {
             if (um.canUndo()) {
                 um.undo();
             }
         });
-        /********************重做***************************/
         JMenuItem redoItem = new JMenuItem("重做");
         redoItem.addActionListener(actionEvent -> {
             if (um.canRedo()) {
                 um.redo();
             }
         });
-        /************************剪切*******************************
-         ****************** 将选中内容赋值给copyText *****************
-         ********************之后删除选择内容*************************/
         JMenuItem cutItem = new JMenuItem("剪切");
         cutItem.addActionListener(actionEvent -> {
             copyText = mainChatContent.getSelectedText();
             mainChatContent.replaceSelection("");
         });
-        /************************复制*******************************
-         ****************** 将选中内容赋值给copyText *****************
-         **********************************************************/
         JMenuItem copyItem = new JMenuItem("复制");
         copyItem.addActionListener(actionEvent -> copyText = mainChatContent.getSelectedText());
-        /**************************粘贴*************************
-         ************** 将选中内容替换为copyText中的内容 **********
-         ******************************************************/
+
         JMenuItem pasteItem = new JMenuItem("粘贴");
         pasteItem.addActionListener(actionEvent -> mainChatContent.replaceSelection(copyText));
-        /**************************删除**************************
-         ***************** 将选中内容替换为空("") *****************
-         *******************************************************/
         JMenuItem deleteItem = new JMenuItem("删除");
         deleteItem.addActionListener(actionEvent -> mainChatContent.replaceSelection(""));
-        /***************************全选*****************************/
         JMenuItem selectAllItem = new JMenuItem("全选");
         selectAllItem.addActionListener(actionEvent -> mainChatContent.selectAll());
         JMenuItem findAndReplaceItem = new JMenuItem("查找和替换");
         findAndReplaceItem.addActionListener(actionEvent -> {
             GridBagLayout layout = new GridBagLayout();
             GridBagConstraints c = new GridBagConstraints();
-            JDialog dialog = new JDialog(aNotepad.this, false);
+            JDialog dialog = new JDialog(mainFrame.this, false);
             dialog.setTitle("查找和替换");
             dialog.setLayout(layout);
             dialog.setSize(300, 150);
@@ -265,7 +235,6 @@ class aNotepad extends JFrame {
         menuEdit.add(selectAllItem);
         menuEdit.add(findAndReplaceItem);
 
-
         JMenu ViewMenu = new JMenu("显示");
         menuBar.add(ViewMenu);
         JCheckBoxMenuItem lineWrapItem = new JCheckBoxMenuItem("自动换行");
@@ -273,98 +242,36 @@ class aNotepad extends JFrame {
         JCheckBoxMenuItem wrapStyleWordItem = new JCheckBoxMenuItem("换行不断词");
         wrapStyleWordItem.addActionListener(actionEvent -> mainChatContent.setWrapStyleWord(wrapStyleWordItem.isSelected()));
         JMenu fontSizeItem = new JMenu("字体大小...");
-        JMenuItem font12 = new JMenuItem("12");
-        font12.addActionListener(actionEvent -> mainChatContent.setFont(new Font("Dialog", 0, 12)));
-        JMenuItem font13 = new JMenuItem("13");
-        font13.addActionListener(actionEvent -> mainChatContent.setFont(new Font("Dialog", 0, 13)));
-        JMenuItem font14 = new JMenuItem("14");
-        font14.addActionListener(actionEvent -> mainChatContent.setFont(new Font("Dialog", 0, 14)));
-        JMenuItem font15 = new JMenuItem("15");
-        font15.addActionListener(actionEvent -> mainChatContent.setFont(new Font("Dialog", 0, 15)));
-        JMenuItem font16 = new JMenuItem("16");
-        font16.addActionListener(actionEvent -> mainChatContent.setFont(new Font("Dialog", 0, 16)));
-        JMenuItem font17 = new JMenuItem("17");
-        font17.addActionListener(actionEvent -> mainChatContent.setFont(new Font("Dialog", 0, 17)));
-        fontSizeItem.add(font12);
-        fontSizeItem.add(font13);
-        fontSizeItem.add(font14);
-        fontSizeItem.add(font15);
-        fontSizeItem.add(font16);
-        fontSizeItem.add(font17);
-        JMenu fontColor = new JMenu("字体颜色...");
-        JMenuItem itemred = new JMenuItem("红色");
-        itemred.addActionListener(actionEvent -> mainChatContent.setForeground(Color.red));
-        JMenuItem itemblue = new JMenuItem("蓝色");
-        itemblue.addActionListener(actionEvent -> mainChatContent.setForeground(Color.blue));
-        JMenuItem itemblack = new JMenuItem("黑色");
-        itemblack.addActionListener(actionEvent -> mainChatContent.setForeground(Color.black));
-        JMenuItem itemgreen = new JMenuItem("绿色");
-        itemgreen.addActionListener(actionEvent -> mainChatContent.setForeground(Color.green));
-        fontColor.add(itemred);
-        fontColor.add(itemblue);
-        fontColor.add(itemblack);
-        fontColor.add(itemgreen);
+        new fontItem("12",fontSizeItem,12,mainChatContent);
+        new fontItem("13",fontSizeItem,13,mainChatContent);
+        new fontItem("14",fontSizeItem,14,mainChatContent);
+        new fontItem("15",fontSizeItem,15,mainChatContent);
+        new fontItem("16",fontSizeItem,16,mainChatContent);
+        new fontItem("17",fontSizeItem,17,mainChatContent);
+        JMenu fontColorMenu = new JMenu("字体颜色...");
+        new fontItem("红色",fontColorMenu,Color.red,mainChatContent);
+        new fontItem("蓝色",fontColorMenu,Color.blue,mainChatContent);
+        new fontItem("黑色",fontColorMenu,Color.black,mainChatContent);
+        new fontItem("绿色",fontColorMenu,Color.green,mainChatContent);
         ViewMenu.add(lineWrapItem);
         ViewMenu.add(wrapStyleWordItem);
         ViewMenu.addSeparator();
         ViewMenu.add(fontSizeItem);
-        ViewMenu.add(fontColor);
+        ViewMenu.add(fontColorMenu);
 
         JMenu helpMenu = new JMenu("帮助");
         menuBar.add(helpMenu);
         JMenuItem viewHelpItem = new JMenuItem("显示帮助...");
-        viewHelpItem.addActionListener(actionEvent -> {
-            JDialog dialog = new JDialog(aNotepad.this, true);
-            dialog.setTitle("帮助");
-            dialog.setLayout(new BorderLayout());
-            JTextArea chatContent1 = new JTextArea();
-            JScrollPane showPanel1 = new JScrollPane(chatContent1);
-            dialog.add(showPanel1, BorderLayout.CENTER);
-            chatContent1.setEditable(false);
-            dialog.setSize(400, 400);
-            chatContent1.setFont(new Font("Dialog", 0, 15));
-            chatContent1.setLineWrap(true);
-            chatContent1.setText("该记事本能完成基本的文本编辑功能，在此对该记事本的功能作简单介绍\n" +
-                    "文件:\n" +
-                    "        新建:创建一个新的空文件\n" +
-                    "        打开:打开一个文件\n" +
-                    "        保存:保存文件，若文件不存在则选择保存位置\n" +
-                    "        另存为:保存文件并指定位置\n" +
-                    "        打印:打印文件\n" +
-                    "        退出:退出记事本\n" +
-                    "编辑:\n" +
-                    "       撤销:撤销上一个操作\n" +
-                    "       重做:重做上一个撤销\n" +
-                    "       剪切:剪切选中内容\n" +
-                    "       复制:复制选中内容\n" +
-                    "       粘贴:在光标处粘贴\n" +
-                    "       删除:删除选中内容\n" +
-                    "       全选:选择所有文本\n" +
-                    "       查找和替换:查找指定文本和替换指定文本\n" +
-                    "显示:\n" +
-                    "       换行不断词:换行单词不会断开\n" +
-                    "       自动换行:自动换行\n" +
-                    "       字体大小:设置文本字体的大小\n" +
-                    "       字体颜色:设置文本的颜色\n" +
-                    "帮助:\n" +
-                    "       显示帮助:显示次对话框\n" +
-                    "       关于notepad:关于此记事本\n");
-            dialog.setLocation(200, 200);
-            dialog.setVisible(true);
-
-
-        });
+        viewHelpItem.addActionListener(actionEvent -> new helpDialog(this, true));
         JMenuItem aboutItem = new JMenuItem("关于 Notepad...");
         aboutItem.addActionListener(actionEvent -> {
             GridBagLayout layout = new GridBagLayout();
             GridBagConstraints c = new GridBagConstraints();
-
-            JDialog dialog = new JDialog(aNotepad.this, true);
+            JDialog dialog = new JDialog(mainFrame.this, true);
             dialog.setLayout(layout);
             dialog.setTitle("关于 Notepad...");
             c.gridheight = 3;
             JLabel label0 = new JLabel(new ImageIcon("img/notepad.jpg"));
-
             JLabel label1 = new JLabel();
             label1.setText("Notepad");
             JLabel label2 = new JLabel();
@@ -389,6 +296,5 @@ class aNotepad extends JFrame {
         helpMenu.add(aboutItem);
         this.add(mainShowPanel, BorderLayout.CENTER);
         this.setVisible(true);
-
     }
 }
