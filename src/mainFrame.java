@@ -26,11 +26,10 @@ public class mainFrame extends JFrame {
          * 新建文件
          * 点击后打开文件选择器，获取用户选择的文件路径，创建文件，最后将文本框内容清空
          */
-        JMenuItem newItem = new JMenuItem("新建");//创建菜单对象
+        NPItem newItem = new NPItem("新建",menuFile);//创建菜单对象
         newItem.addActionListener(actionEvent -> {//添加点击事件
             JFileChooser newFileChooser = new JFileChooser();//创建文件选择器对象
-            int newFileChooserReturn = newFileChooser.showSaveDialog(getContentPane());
-            if (newFileChooserReturn == JFileChooser.APPROVE_OPTION) {
+            if (newFileChooser.showSaveDialog(getContentPane()) == JFileChooser.APPROVE_OPTION) {
                 File newSelectedFile = newFileChooser.getSelectedFile();//获取用户选择的文件
                 openingFile = newSelectedFile.getPath();//获取文件的路径
                 FileIO newFile = new FileIO(newSelectedFile.getPath());
@@ -46,12 +45,11 @@ public class mainFrame extends JFrame {
          * 打开文件
          * 点击后打开文件，读取文件内容，将文本框内容设置为文件内容
          */
-        JMenuItem openItem = new JMenuItem("打开");
+        NPItem openItem = new NPItem("打开",menuFile);
         //为按钮添加事件
         openItem.addActionListener(actionEvent -> {
             JFileChooser openFileChooser = new JFileChooser();//创建文件选择器
-            int openFileChooserReturn = openFileChooser.showOpenDialog(getContentPane());//显示文件选择器
-            if (openFileChooserReturn == JFileChooser.APPROVE_OPTION) {//如果返回1就将文件内容读取到文本框
+            if (openFileChooser.showOpenDialog(getContentPane()) == JFileChooser.APPROVE_OPTION) {//如果返回1就将文件内容读取到文本框
                 File openSelectedFile = openFileChooser.getSelectedFile();//获取用户选择的文件
                 openingFile = openSelectedFile.getPath();//获取文件的路径
                 FileIO openFile = new FileIO(openSelectedFile.getPath());
@@ -63,11 +61,12 @@ public class mainFrame extends JFrame {
                 }
             }
         });
+        menuFile.addSeparator();
         /*
          * 保存文件
          * 点击按钮后判断是否有打开的文件，若有则直接保存，否则打开文件选择器让用户选择文件保存位置
          */
-        JMenuItem saveItem = new JMenuItem("保存");
+        NPItem saveItem = new NPItem("保存",menuFile);
         saveItem.addActionListener(actionEvent -> {
             if (openingFile != null) {//若有打开的文件
                 FileIO bcd = new FileIO(openingFile);
@@ -78,8 +77,7 @@ public class mainFrame extends JFrame {
                 }
             } else {//否则
                 JFileChooser fileChooser = new JFileChooser();
-                int i = fileChooser.showSaveDialog(getContentPane());
-                if (i == JFileChooser.APPROVE_OPTION) {
+                if (fileChooser.showSaveDialog(getContentPane()) == JFileChooser.APPROVE_OPTION) {
                     File selectedFile = fileChooser.getSelectedFile();//创建文件选择器
                     //System.out.println(selectedFile.getPath());
                     openingFile = selectedFile.getPath();//获取用户选择的路径
@@ -101,13 +99,11 @@ public class mainFrame extends JFrame {
          * 另存为文件
          * 点击后打开打开文件选择器，将文件保存的用户选择的位置
          */
-        JMenuItem saveAsItem = new JMenuItem("另存为...");
+        NPItem saveAsItem = new NPItem("另存为...",menuFile);
         saveAsItem.addActionListener(actionEvent -> {
             JFileChooser fileChooser = new JFileChooser();
-            int i = fileChooser.showSaveDialog(getContentPane());
-            if (i == JFileChooser.APPROVE_OPTION) {
+            if (fileChooser.showSaveDialog(getContentPane()) == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
-                //System.out.println(selectedFile.getPath());
                 openingFile = selectedFile.getPath();
                 FileIO adc = new FileIO(selectedFile.getPath());
                 try {
@@ -122,11 +118,12 @@ public class mainFrame extends JFrame {
                 }
             }
         });
+        menuFile.addSeparator();
         /*
          * 打印文件
          * 需要调用打印机
          */
-        JMenuItem printItem = new JMenuItem("打印...");
+        NPItem printItem = new NPItem("打印...",menuFile);
         printItem.addActionListener(actionEvent -> {
             JDialog dialog = new JDialog(mainFrame.this, true);
             dialog.setTitle("打印");
@@ -137,44 +134,34 @@ public class mainFrame extends JFrame {
         /*
          * 退出程序
          */
-        JMenuItem exitItem = new JMenuItem("退出");
+        //JMenuItem exitItem = new JMenuItem("退出");
+        NPItem exitItem = new NPItem("退出",menuFile);
         exitItem.addActionListener(actionEvent -> System.exit(0));
-
-        //>>>>>>>>添加菜单>>>>>>>>>
-        menuFile.add(newItem);
-        menuFile.add(openItem);
-        menuFile.addSeparator();
-        menuFile.add(saveItem);
-        menuFile.add(saveAsItem);
-        menuFile.addSeparator();
-        menuFile.add(printItem);
-        menuFile.add(exitItem);
-        //<<<<<<<<<<<<<<<<<<<<<<<
-
         JMenu menuEdit = new JMenu("编辑");
         menuBar.add(menuEdit);
         /*
          * 撤销操作
          * 使用JAVA提供的Undo方法实现
          */
-        JMenuItem undoItem = new JMenuItem("撤销");
+        NPItem undoItem = new NPItem("撤销",menuEdit);
         undoItem.addActionListener(actionEvent -> {
             if (um.canUndo()) {//如果可以撤销
                 um.undo();//执行撤销
             }
         });
-        JMenuItem redoItem = new JMenuItem("重做");
+        NPItem redoItem = new NPItem("重做",menuEdit);
         redoItem.addActionListener(actionEvent -> {
             if (um.canRedo()) {//如果可以重做
                 um.redo();//执行重做
             }
         });
+        menuEdit.addSeparator();
         /*
          * 剪切选中内容
          * 先将选中内容赋值给copyText
          * 再删除选中内容
          */
-        JMenuItem cutItem = new JMenuItem("剪切");
+        NPItem cutItem = new NPItem("剪切",menuEdit);
         cutItem.addActionListener(actionEvent -> {
             copyText = mainChatContent.getSelectedText();//获取选中内容赋值给copyText
             mainChatContent.replaceSelection("");//删除选中内容
@@ -183,105 +170,47 @@ public class mainFrame extends JFrame {
          * 复制选中内容
          * 将选中内容赋值给copyText
          */
-        JMenuItem copyItem = new JMenuItem("复制");
+        NPItem copyItem = new NPItem("复制",menuEdit);
         copyItem.addActionListener(actionEvent -> copyText = mainChatContent.getSelectedText());
         /*
          * 粘贴
          * 将选中内容改为copyText
          */
-        JMenuItem pasteItem = new JMenuItem("粘贴");
+        NPItem pasteItem = new NPItem("粘贴",menuEdit);
         pasteItem.addActionListener(actionEvent -> mainChatContent.replaceSelection(copyText));
         /*
          * 删除选中内容
          */
-        JMenuItem deleteItem = new JMenuItem("删除");
+        NPItem deleteItem = new NPItem("删除",menuEdit);
         deleteItem.addActionListener(actionEvent -> mainChatContent.replaceSelection(""));
+        menuEdit.addSeparator();
         /*
          * 全选
          * 调用已有的selectAll方法
          */
-        JMenuItem selectAllItem = new JMenuItem("全选");
+        NPItem selectAllItem = new NPItem("全选",menuEdit);
         selectAllItem.addActionListener(actionEvent -> mainChatContent.selectAll());
-        JMenuItem findAndReplaceItem = new JMenuItem("查找和替换");
-        findAndReplaceItem.addActionListener(actionEvent -> {
-            GridBagLayout layout = new GridBagLayout();
-            GridBagConstraints c = new GridBagConstraints();
-            JDialog dialog = new JDialog(mainFrame.this, false);
-            dialog.setTitle("查找和替换");
-            dialog.setLayout(layout);
-            dialog.setSize(300, 150);
-            dialog.setLocation(200, 200);
-            dialog.setVisible(true);
-            JLabel lbFind = new JLabel("查找");
-            JLabel lbReplace = new JLabel("替换");
-            JButton lastFind = new JButton("查找上一个");
-            JButton nextFind = new JButton("查找下一个");
-            JButton buttonReplace = new JButton("替换");
-            JTextField find = new JTextField(15);
-            JTextField replace = new JTextField(15);
-            lastFind.addActionListener(actionEvent13 -> {
-                if (find.getText() != null) {
-                    String str = new StringBuilder(mainChatContent.getText()).reverse().toString();
-                    String substr = new StringBuilder(find.getText()).reverse().toString();
-                    int findStart = str.indexOf(substr, str.length() - mainChatContent.getSelectionStart());
-                    if (findStart != -1) {
-                        mainChatContent.select(str.length() - findStart - substr.length(), str.length() - findStart);
-                    } else {
-                        mainChatContent.setCaretPosition(str.length());
-                    }
-                }
-            });
-            nextFind.addActionListener(actionEvent12 -> {
-                if (find.getText() != null) {
-                    int findStart = mainChatContent.getText().indexOf(find.getText(), mainChatContent.getCaretPosition());
-                    if (findStart != -1) {
-                        mainChatContent.select(findStart, findStart + find.getText().length());
-                    } else {
-                        mainChatContent.setCaretPosition(0);
-                    }
-                }
-            });
-            buttonReplace.addActionListener(actionEvent1 -> {
-                if (find.getText() != null) {
-                    mainChatContent.setText(mainChatContent.getText().replace(find.getText(), replace.getText()));
-                }
-            });
-            c.weightx = 0.3;
-            dialog.add(lbFind, c);
-            c.gridwidth = GridBagConstraints.REMAINDER;
-            c.weightx = 0.7;
-            dialog.add(find, c);
-            c.gridwidth = 1;
-            c.weightx = 0.3;
-            dialog.add(lbReplace, c);
-            c.gridwidth = GridBagConstraints.REMAINDER;
-            c.weightx = 0.7;
-            dialog.add(replace, c);
-            c.gridwidth = 1;
-            c.weightx = 1;
-            dialog.add(lastFind, c);
-            dialog.add(nextFind, c);
-            c.gridwidth = GridBagConstraints.REMAINDER;
-            dialog.add(buttonReplace, c);
-
-        });
-        menuEdit.add(undoItem);
-        menuEdit.add(redoItem);
-        menuEdit.addSeparator();
-        menuEdit.add(cutItem);
-        menuEdit.add(copyItem);
-        menuEdit.add(pasteItem);
-        menuEdit.add(deleteItem);
-        menuEdit.addSeparator();
-        menuEdit.add(selectAllItem);
-        menuEdit.add(findAndReplaceItem);
-
+        /*
+         * 查找和替换
+         * 创建一个对话框，在对话框中实现
+         */
+        NPItem findAndReplaceItem = new NPItem("查找和替换",menuEdit);
+        findAndReplaceItem.addActionListener(actionEvent -> new findReplaceFrame(this,true,mainChatContent));
         JMenu ViewMenu = new JMenu("显示");
         menuBar.add(ViewMenu);
+        /*
+         * 自动换行
+         * 使用java提供的setLineWrap方法
+         */
         JCheckBoxMenuItem lineWrapItem = new JCheckBoxMenuItem("自动换行");
         lineWrapItem.addActionListener(actionEvent -> mainChatContent.setLineWrap(lineWrapItem.isSelected()));
+        /*
+         * 换行不断词
+         * 使用java提供的setWrapStyleWord方法
+         */
         JCheckBoxMenuItem wrapStyleWordItem = new JCheckBoxMenuItem("换行不断词");
         wrapStyleWordItem.addActionListener(actionEvent -> mainChatContent.setWrapStyleWord(wrapStyleWordItem.isSelected()));
+
         JMenu fontSizeItem = new JMenu("字体大小...");
         for(int i=12;i<=17;i++){
             new fontItem(i+"",fontSizeItem,i,mainChatContent);
@@ -299,41 +228,15 @@ public class mainFrame extends JFrame {
 
         JMenu helpMenu = new JMenu("帮助");
         menuBar.add(helpMenu);
-        JMenuItem viewHelpItem = new JMenuItem("显示帮助...");
+        /*
+         * 显示帮助
+         * 点击后创建对话框
+         */
+        NPItem viewHelpItem = new NPItem("显示帮助...",helpMenu);
         viewHelpItem.addActionListener(actionEvent -> new helpDialog(this, true));
-        JMenuItem aboutItem = new JMenuItem("关于 Notepad...");
-        aboutItem.addActionListener(actionEvent -> {
-            GridBagLayout layout = new GridBagLayout();
-            GridBagConstraints c = new GridBagConstraints();
-            JDialog dialog = new JDialog(mainFrame.this, true);
-            dialog.setLayout(layout);
-            dialog.setTitle("关于 Notepad...");
-            c.gridheight = 3;
-            JLabel label0 = new JLabel(new ImageIcon("img/notepad1.jpg"));
-            JLabel label1 = new JLabel();
-            label1.setText("Notepad");
-            JLabel label2 = new JLabel();
-            label2.setText("Version 1.0");
-            JLabel label3 = new JLabel();
-            label3.setText("JRE Version 11");
-            dialog.add(label0, c);
-            c.gridwidth = GridBagConstraints.REMAINDER;
-            c.gridheight = 1;
-            c.weighty = 1;
-            dialog.add(label1, c);
-            dialog.add(label2, c);
-            dialog.add(label3, c);
-            JLabel label4 = new JLabel();
-            label4.setText("By OpenJDK11");
-            dialog.add(label4, c);
-            dialog.setSize(200, 150);
-            dialog.setResizable(false);
-            dialog.setLocation(200, 200);
-            dialog.setVisible(true);
-        });
-        helpMenu.add(viewHelpItem);
-        helpMenu.add(aboutItem);
+        NPItem aboutItem = new NPItem("关于 Notepad...",helpMenu);
+        aboutItem.addActionListener(actionEvent -> new aboutFrame(this,true));
         this.add(mainShowPanel, BorderLayout.CENTER);
-        this.setVisible(true);
+        this.setVisible(true);//设置显示主窗口
     }
 }
