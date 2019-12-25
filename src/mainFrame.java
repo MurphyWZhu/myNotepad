@@ -24,71 +24,83 @@ public class mainFrame extends JFrame {
         menuBar.add(menuFile);
         /*
          * 新建文件
-         *
+         * 点击后打开文件选择器，获取用户选择的文件路径，创建文件，最后将文本框内容清空
          */
-        JMenuItem newItem = new JMenuItem("新建");
-        newItem.addActionListener(actionEvent -> {
-            JFileChooser newFileChooser = new JFileChooser();
+        JMenuItem newItem = new JMenuItem("新建");//创建菜单对象
+        newItem.addActionListener(actionEvent -> {//添加点击事件
+            JFileChooser newFileChooser = new JFileChooser();//创建文件选择器对象
             int newFileChooserReturn = newFileChooser.showSaveDialog(getContentPane());
             if (newFileChooserReturn == JFileChooser.APPROVE_OPTION) {
-                File newSelectedFile = newFileChooser.getSelectedFile();
-                openingFile = newSelectedFile.getPath();
+                File newSelectedFile = newFileChooser.getSelectedFile();//获取用户选择的文件
+                openingFile = newSelectedFile.getPath();//获取文件的路径
                 FileIO newFile = new FileIO(newSelectedFile.getPath());
                 try {
-                    newFile.createFile();
-                    mainChatContent.setText("");
+                    newFile.createFile();//创建文件
+                    mainChatContent.setText("");//清空文本框
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         });
+        /*
+         * 打开文件
+         * 点击后打开文件，读取文件内容，将文本框内容设置为文件内容
+         */
         JMenuItem openItem = new JMenuItem("打开");
         //为按钮添加事件
         openItem.addActionListener(actionEvent -> {
             JFileChooser openFileChooser = new JFileChooser();//创建文件选择器
             int openFileChooserReturn = openFileChooser.showOpenDialog(getContentPane());//显示文件选择器
             if (openFileChooserReturn == JFileChooser.APPROVE_OPTION) {//如果返回1就将文件内容读取到文本框
-                File openSelectedFile = openFileChooser.getSelectedFile();
-                openingFile = openSelectedFile.getPath();
+                File openSelectedFile = openFileChooser.getSelectedFile();//获取用户选择的文件
+                openingFile = openSelectedFile.getPath();//获取文件的路径
                 FileIO openFile = new FileIO(openSelectedFile.getPath());
                 try {
-                    String openFileGetText = openFile.getText();
-                    mainChatContent.setText(openFileGetText);
+                    String openFileGetText = openFile.getText();//获取文件的内容
+                    mainChatContent.setText(openFileGetText);//将文本框内容设置为文件内容
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         });
+        /*
+         * 保存文件
+         * 点击按钮后判断是否有打开的文件，若有则直接保存，否则打开文件选择器让用户选择文件保存位置
+         */
         JMenuItem saveItem = new JMenuItem("保存");
         saveItem.addActionListener(actionEvent -> {
-            if (openingFile != null) {
+            if (openingFile != null) {//若有打开的文件
                 FileIO bcd = new FileIO(openingFile);
                 try {
-                    bcd.writeFile(mainChatContent.getText());
+                    bcd.writeFile(mainChatContent.getText());//将文本框的内容写入文件
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            } else {
+            } else {//否则
                 JFileChooser fileChooser = new JFileChooser();
                 int i = fileChooser.showSaveDialog(getContentPane());
                 if (i == JFileChooser.APPROVE_OPTION) {
-                    File selectedFile = fileChooser.getSelectedFile();
+                    File selectedFile = fileChooser.getSelectedFile();//创建文件选择器
                     //System.out.println(selectedFile.getPath());
-                    openingFile = selectedFile.getPath();
+                    openingFile = selectedFile.getPath();//获取用户选择的路径
                     FileIO adc = new FileIO(selectedFile.getPath());
                     try {
-                        adc.createFile();
+                        adc.createFile();//创建文件
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                     try {
-                        adc.writeFile(mainChatContent.getText());
+                        adc.writeFile(mainChatContent.getText());//将文本框内容写入文件
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
             }
         });
+        /*
+         * 另存为文件
+         * 点击后打开打开文件选择器，将文件保存的用户选择的位置
+         */
         JMenuItem saveAsItem = new JMenuItem("另存为...");
         saveAsItem.addActionListener(actionEvent -> {
             JFileChooser fileChooser = new JFileChooser();
@@ -110,6 +122,10 @@ public class mainFrame extends JFrame {
                 }
             }
         });
+        /*
+         * 打印文件
+         * 需要调用打印机
+         */
         JMenuItem printItem = new JMenuItem("打印...");
         printItem.addActionListener(actionEvent -> {
             JDialog dialog = new JDialog(mainFrame.this, true);
@@ -118,6 +134,9 @@ public class mainFrame extends JFrame {
             dialog.setLocation(200, 200);
             dialog.setVisible(true);
         });
+        /*
+         * 退出程序
+         */
         JMenuItem exitItem = new JMenuItem("退出");
         exitItem.addActionListener(actionEvent -> System.exit(0));
 
@@ -134,30 +153,53 @@ public class mainFrame extends JFrame {
 
         JMenu menuEdit = new JMenu("编辑");
         menuBar.add(menuEdit);
+        /*
+         * 撤销操作
+         * 使用JAVA提供的Undo方法实现
+         */
         JMenuItem undoItem = new JMenuItem("撤销");
         undoItem.addActionListener(actionEvent -> {
-            if (um.canUndo()) {
-                um.undo();
+            if (um.canUndo()) {//如果可以撤销
+                um.undo();//执行撤销
             }
         });
         JMenuItem redoItem = new JMenuItem("重做");
         redoItem.addActionListener(actionEvent -> {
-            if (um.canRedo()) {
-                um.redo();
+            if (um.canRedo()) {//如果可以重做
+                um.redo();//执行重做
             }
         });
+        /*
+         * 剪切选中内容
+         * 先将选中内容赋值给copyText
+         * 再删除选中内容
+         */
         JMenuItem cutItem = new JMenuItem("剪切");
         cutItem.addActionListener(actionEvent -> {
-            copyText = mainChatContent.getSelectedText();
-            mainChatContent.replaceSelection("");
+            copyText = mainChatContent.getSelectedText();//获取选中内容赋值给copyText
+            mainChatContent.replaceSelection("");//删除选中内容
         });
+        /*
+         * 复制选中内容
+         * 将选中内容赋值给copyText
+         */
         JMenuItem copyItem = new JMenuItem("复制");
         copyItem.addActionListener(actionEvent -> copyText = mainChatContent.getSelectedText());
-
+        /*
+         * 粘贴
+         * 将选中内容改为copyText
+         */
         JMenuItem pasteItem = new JMenuItem("粘贴");
         pasteItem.addActionListener(actionEvent -> mainChatContent.replaceSelection(copyText));
+        /*
+         * 删除选中内容
+         */
         JMenuItem deleteItem = new JMenuItem("删除");
         deleteItem.addActionListener(actionEvent -> mainChatContent.replaceSelection(""));
+        /*
+         * 全选
+         * 调用已有的selectAll方法
+         */
         JMenuItem selectAllItem = new JMenuItem("全选");
         selectAllItem.addActionListener(actionEvent -> mainChatContent.selectAll());
         JMenuItem findAndReplaceItem = new JMenuItem("查找和替换");
@@ -184,7 +226,6 @@ public class mainFrame extends JFrame {
                     int findStart = str.indexOf(substr, str.length() - mainChatContent.getSelectionStart());
                     if (findStart != -1) {
                         mainChatContent.select(str.length() - findStart - substr.length(), str.length() - findStart);
-                        //chatContent.setCaretPosition(str.length()-findStart-substr.length());
                     } else {
                         mainChatContent.setCaretPosition(str.length());
                     }
@@ -242,12 +283,9 @@ public class mainFrame extends JFrame {
         JCheckBoxMenuItem wrapStyleWordItem = new JCheckBoxMenuItem("换行不断词");
         wrapStyleWordItem.addActionListener(actionEvent -> mainChatContent.setWrapStyleWord(wrapStyleWordItem.isSelected()));
         JMenu fontSizeItem = new JMenu("字体大小...");
-        new fontItem("12",fontSizeItem,12,mainChatContent);
-        new fontItem("13",fontSizeItem,13,mainChatContent);
-        new fontItem("14",fontSizeItem,14,mainChatContent);
-        new fontItem("15",fontSizeItem,15,mainChatContent);
-        new fontItem("16",fontSizeItem,16,mainChatContent);
-        new fontItem("17",fontSizeItem,17,mainChatContent);
+        for(int i=12;i<=17;i++){
+            new fontItem(i+"",fontSizeItem,i,mainChatContent);
+        }
         JMenu fontColorMenu = new JMenu("字体颜色...");
         new fontItem("红色",fontColorMenu,Color.red,mainChatContent);
         new fontItem("蓝色",fontColorMenu,Color.blue,mainChatContent);
@@ -271,7 +309,7 @@ public class mainFrame extends JFrame {
             dialog.setLayout(layout);
             dialog.setTitle("关于 Notepad...");
             c.gridheight = 3;
-            JLabel label0 = new JLabel(new ImageIcon("img/notepad.jpg"));
+            JLabel label0 = new JLabel(new ImageIcon("img/notepad1.jpg"));
             JLabel label1 = new JLabel();
             label1.setText("Notepad");
             JLabel label2 = new JLabel();
@@ -288,7 +326,8 @@ public class mainFrame extends JFrame {
             JLabel label4 = new JLabel();
             label4.setText("By OpenJDK11");
             dialog.add(label4, c);
-            dialog.setSize(500, 500);
+            dialog.setSize(200, 150);
+            dialog.setResizable(false);
             dialog.setLocation(200, 200);
             dialog.setVisible(true);
         });

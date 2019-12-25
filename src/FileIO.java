@@ -14,11 +14,11 @@ public class FileIO {
         if (!file.exists() || file.isDirectory())
             throw new FileNotFoundException();
         BufferedReader br = new BufferedReader(new FileReader(file));
-        String temp = null;
-        StringBuffer sb = new StringBuffer();
+        String temp;
+        StringBuilder sb = new StringBuilder();
         temp = br.readLine();
         while (temp != null) {
-            sb.append(temp + "\n");
+            sb.append(temp).append("\n");
             temp = br.readLine();
         }
         br.close();
