@@ -1,6 +1,8 @@
 import javax.swing.*;
 import javax.swing.undo.UndoManager;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -242,10 +244,6 @@ public class mainFrame extends JFrame {
         JCheckBoxMenuItem wrapStyleWordItem = new JCheckBoxMenuItem("换行不断词");
         wrapStyleWordItem.addActionListener(actionEvent -> mainChatContent.setWrapStyleWord(wrapStyleWordItem.isSelected()));
 
-        JMenu fontSizeItem = new JMenu("字体大小...");
-        for(int i=12;i<=17;i++){
-            new fontItem(i+"",fontSizeItem,i,mainChatContent);
-        }
         JMenu fontColorMenu = new JMenu("字体颜色...");
         new fontItem("红色",fontColorMenu,Color.red,mainChatContent);
         new fontItem("蓝色",fontColorMenu,Color.blue,mainChatContent);
@@ -254,7 +252,9 @@ public class mainFrame extends JFrame {
         ViewMenu.add(lineWrapItem);
         ViewMenu.add(wrapStyleWordItem);
         ViewMenu.addSeparator();
-        ViewMenu.add(fontSizeItem);
+
+        NPItem fontItem = new NPItem("字体",ViewMenu);
+        fontItem.addActionListener(actionEvent -> new NPFontFrame(this,true,mainChatContent));
         ViewMenu.add(fontColorMenu);
 
         JMenu helpMenu = new JMenu("帮助");
