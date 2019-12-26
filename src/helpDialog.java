@@ -1,6 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
-
+/*
+ * helpDialog类继承与JDialog类，用于显示帮助菜单
+ * 只需添加一个JTextArea，用于显示文字，所以使用BorderLayout布局方式
+ */
 public class helpDialog extends JDialog {
     public helpDialog(Frame a,boolean b){
         super(a,b);
@@ -9,10 +12,10 @@ public class helpDialog extends JDialog {
         JTextArea chatContent1 = new JTextArea();
         JScrollPane showPanel1 = new JScrollPane(chatContent1);
         this.add(showPanel1, BorderLayout.CENTER);
-        chatContent1.setEditable(false);
+        chatContent1.setEditable(false);//设置文本不可修改
         this.setSize(400, 400);
         chatContent1.setFont(new Font("Dialog", Font.PLAIN, 15));
-        chatContent1.setLineWrap(true);
+        chatContent1.setLineWrap(true);//设置文本自动换行
         chatContent1.setText("该记事本能完成基本的文本编辑功能，在此对该记事本的功能作简单介绍\n" +
                 "文件:\n" +
                 "        新建:创建一个新的空文件\n" +

@@ -195,7 +195,7 @@ public class mainFrame extends JFrame {
          * 创建一个对话框，在对话框中实现
          */
         NPItem findAndReplaceItem = new NPItem("查找和替换",menuEdit);
-        findAndReplaceItem.addActionListener(actionEvent -> new findReplaceFrame(this,true,mainChatContent));
+        findAndReplaceItem.addActionListener(actionEvent -> new findReplaceFrame(this,false,mainChatContent));
         JMenu ViewMenu = new JMenu("显示");
         menuBar.add(ViewMenu);
         /*

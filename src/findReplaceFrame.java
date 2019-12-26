@@ -1,6 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
-
+/*
+ * findReplaceFrame类继承JDialog类，显示查找和替换界面
+ * 由于有多个组件，遂使用GridBagLayout布局方式
+ */
 public class findReplaceFrame extends JDialog {
     public findReplaceFrame(Frame a, boolean b, JTextArea JT) {
         super(a, b);
@@ -10,7 +13,6 @@ public class findReplaceFrame extends JDialog {
         this.setLayout(layout);
         this.setSize(300, 150);
         this.setLocation(200, 200);
-        //this.setVisible(true);
         JLabel lbFind = new JLabel("查找");
         JLabel lbReplace = new JLabel("替换");
         JButton lastFind = new JButton("查找上一个");
@@ -30,19 +32,19 @@ public class findReplaceFrame extends JDialog {
                 }
             }
         });
-        nextFind.addActionListener(actionEvent12 -> {
-            if (find.getText() != null) {
-                int findStart = JT.getText().indexOf(find.getText(), JT.getCaretPosition());
-                if (findStart != -1) {
-                    JT.select(findStart, findStart + find.getText().length());
+        nextFind.addActionListener(actionEvent12 -> {//查找下一个方法
+            if (find.getText() != null) {//如果要查找的内容不为空
+                int findStart = JT.getText().indexOf(find.getText(), JT.getCaretPosition());//获取目标内容在文本内的开始位置
+                if (findStart != -1) {//如果indexOf的返回值不为-1
+                    JT.select(findStart, findStart + find.getText().length());//选中目标内容
                 } else {
-                    JT.setCaretPosition(0);
+                    JT.setCaretPosition(0);//否则将光标移动到文本开始
                 }
             }
         });
-        buttonReplace.addActionListener(actionEvent1 -> {
-            if (find.getText() != null) {
-                JT.setText(JT.getText().replace(find.getText(), replace.getText()));
+        buttonReplace.addActionListener(actionEvent1 -> {//替换文本的方法
+            if (find.getText() != null) {//如果被替换文本不为空
+                JT.setText(JT.getText().replace(find.getText(), replace.getText()));//执行替换
             }
         });
         c.weightx = 0.3;

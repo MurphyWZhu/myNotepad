@@ -1,12 +1,15 @@
 import javax.swing.*;
 import java.awt.*;
-
+/*
+ * aboutFrame类继承于JDialog类，用于显示关于界面
+ * 根据界面排版情况使用GridBagLayout布局方式
+ */
 public class aboutFrame extends JDialog {
     public aboutFrame(Frame a, boolean b){
-        super(a,b);
-        GridBagLayout layout = new GridBagLayout();
+        super(a,b);//调用父类的构造方法
+        GridBagLayout layout = new GridBagLayout();//新建一个布局器
         GridBagConstraints c = new GridBagConstraints();
-        this.setLayout(layout);
+        this.setLayout(layout);//添加布局器
         this.setTitle("关于 Notepad...");
         c.gridheight = 3;
         JLabel label0 = new JLabel(new ImageIcon("img/notepad1.jpg"));
