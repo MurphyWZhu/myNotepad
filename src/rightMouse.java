@@ -1,5 +1,7 @@
 import javax.swing.*;
-
+/*
+ * 用于显示右键菜单的类
+ */
 public class rightMouse extends JPopupMenu {
     public NPClipboard npClipboard;
     public rightMouse(JTextArea JT){

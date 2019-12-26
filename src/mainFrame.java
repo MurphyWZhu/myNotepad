@@ -7,18 +7,21 @@ import java.io.File;
 import java.io.IOException;
 
 public class mainFrame extends JFrame {
-    public String openingFile = null;
-    public NPClipboard npClipboard;
+    public String openingFile = null;//记录当前编辑的文件
+    public NPClipboard npClipboard;//获取系统剪贴板
     public mainFrame() {
-        this.npClipboard = new NPClipboard();
+        this.npClipboard = new NPClipboard();//获取系统剪贴板
         this.setLayout(new BorderLayout());
         JTextArea mainChatContent = new JTextArea();
         this.setTitle("Notepad");
         this.setSize(500, 500);
-        Dimension screenSize =Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation(screenSize.width/2-250,screenSize.height/2-250);
+        Dimension screenSize =Toolkit.getDefaultToolkit().getScreenSize();//获取系统屏幕大小
+        this.setLocation(screenSize.width/2-250,screenSize.height/2-250);//将窗口显示到屏幕中央
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        /*
+         * 监听鼠标右键事件，用于控制显示右键菜单
+         */
         rightMouse NPRightMouse = new rightMouse(mainChatContent);
         mainChatContent.addMouseListener(new MouseListener() {
             @Override
@@ -50,9 +53,9 @@ public class mainFrame extends JFrame {
         });
 
         JScrollPane mainShowPanel = new JScrollPane(mainChatContent);
-        UndoManager um = new UndoManager();
-        mainChatContent.getDocument().addUndoableEditListener(um);
-        JMenuBar menuBar = new JMenuBar();
+        UndoManager um = new UndoManager();//创建Undo管理器
+        mainChatContent.getDocument().addUndoableEditListener(um);//将Undo管理器绑定到文本框上
+        JMenuBar menuBar = new JMenuBar();//创建菜单条
         this.setJMenuBar(menuBar);
         JMenu menuFile = new JMenu("文件");
         menuBar.add(menuFile);
@@ -157,13 +160,7 @@ public class mainFrame extends JFrame {
          * 需要调用打印机
          */
         NPItem printItem = new NPItem("打印...",menuFile);
-        printItem.addActionListener(actionEvent -> {
-            JDialog dialog = new JDialog(mainFrame.this, true);
-            dialog.setTitle("打印");
-            dialog.setSize(200, 200);
-            dialog.setLocation(200, 200);
-            dialog.setVisible(true);
-        });
+        printItem.addActionListener(actionEvent -> new printFrame(this,true));
         /*
          * 退出程序
          */

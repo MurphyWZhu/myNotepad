@@ -4,18 +4,25 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 
+/*
+ * 用于获取和设置系统剪贴板的类
+ */
 public class NPClipboard {
     public Clipboard clipboard;
 
     public NPClipboard() {
-        this.clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        this.clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();//获取系统剪贴板
     }
-
+    /*
+     * 将文本复制到系统剪贴板
+     */
     public void clipboardCopy(String copyStr) {
         Transferable transferable = new StringSelection(copyStr);
         clipboard.setContents(transferable, null);
     }
-
+    /*
+     * 将系统剪贴板的内容粘贴到文本框
+     */
     public String clipboardPaste() {
         Transferable transferable = clipboard.getContents(null);
         if (transferable != null) {
