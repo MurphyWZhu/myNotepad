@@ -1,6 +1,8 @@
 import java.io.*;
 
-/*********对文件操作的类**************/
+/*
+ * FileIO类用于操作文件
+ */
 public class FileIO {
     public String file;
 
@@ -8,11 +10,13 @@ public class FileIO {
         this.file = file;
     }
 
-    /****************读取文件方法***************/
+    /*
+     * 读取文件中的内容，并返回
+     */
     public String getText() throws IOException {
         File file = new File(this.file);
-        if (!file.exists() || file.isDirectory())
-            throw new FileNotFoundException();
+        if (!file.exists() || file.isDirectory())//如果文件不存在或文件为目录
+            throw new FileNotFoundException();//抛出异常
         BufferedReader br = new BufferedReader(new FileReader(file));
         String temp;
         StringBuilder sb = new StringBuilder();
@@ -24,7 +28,10 @@ public class FileIO {
         br.close();
         return sb.toString();
     }
-/******************************写文件的方法*********************************/
+
+    /*
+     * 将文本写入文件
+     */
     public void writeFile(String writeText) throws IOException {
         File file = new File(this.file);
         if (!file.exists() || file.isDirectory())
@@ -33,7 +40,10 @@ public class FileIO {
         bw.write(writeText);
         bw.close();
     }
-/*******************************新建文件的方法******************************************/
+
+    /*
+     * 创建文件
+     */
     public void createFile() throws IOException {
         File file = new File(this.file);
         if (!file.exists()) {
