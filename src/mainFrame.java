@@ -1,20 +1,53 @@
 import javax.swing.*;
 import javax.swing.undo.UndoManager;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 
 public class mainFrame extends JFrame {
     public String openingFile = null;
-    public String copyText = null;
-
+    public NPClipboard npClipboard;
     public mainFrame() {
+        this.npClipboard = new NPClipboard();
         this.setLayout(new BorderLayout());
         JTextArea mainChatContent = new JTextArea();
         this.setTitle("Notepad");
         this.setSize(500, 500);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        rightMouse NPRightMouse = new rightMouse(mainChatContent);
+        mainChatContent.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON3){
+                    NPRightMouse.show(e.getComponent(),e.getX(),e.getY());
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent mouseEvent) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent mouseEvent) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent mouseEvent) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent mouseEvent) {
+
+            }
+        });
+
         JScrollPane mainShowPanel = new JScrollPane(mainChatContent);
         UndoManager um = new UndoManager();
         mainChatContent.getDocument().addUndoableEditListener(um);
@@ -79,7 +112,6 @@ public class mainFrame extends JFrame {
                 JFileChooser fileChooser = new JFileChooser();
                 if (fileChooser.showSaveDialog(getContentPane()) == JFileChooser.APPROVE_OPTION) {
                     File selectedFile = fileChooser.getSelectedFile();//创建文件选择器
-                    //System.out.println(selectedFile.getPath());
                     openingFile = selectedFile.getPath();//获取用户选择的路径
                     FileIO adc = new FileIO(selectedFile.getPath());
                     try {
@@ -134,7 +166,6 @@ public class mainFrame extends JFrame {
         /*
          * 退出程序
          */
-        //JMenuItem exitItem = new JMenuItem("退出");
         NPItem exitItem = new NPItem("退出",menuFile);
         exitItem.addActionListener(actionEvent -> System.exit(0));
         JMenu menuEdit = new JMenu("编辑");
@@ -163,7 +194,7 @@ public class mainFrame extends JFrame {
          */
         NPItem cutItem = new NPItem("剪切",menuEdit);
         cutItem.addActionListener(actionEvent -> {
-            copyText = mainChatContent.getSelectedText();//获取选中内容赋值给copyText
+            npClipboard.clipboardCopy(mainChatContent.getSelectedText());
             mainChatContent.replaceSelection("");//删除选中内容
         });
         /*
@@ -171,13 +202,13 @@ public class mainFrame extends JFrame {
          * 将选中内容赋值给copyText
          */
         NPItem copyItem = new NPItem("复制",menuEdit);
-        copyItem.addActionListener(actionEvent -> copyText = mainChatContent.getSelectedText());
+        copyItem.addActionListener(actionEvent -> npClipboard.clipboardCopy(mainChatContent.getSelectedText()));
         /*
          * 粘贴
          * 将选中内容改为copyText
          */
         NPItem pasteItem = new NPItem("粘贴",menuEdit);
-        pasteItem.addActionListener(actionEvent -> mainChatContent.replaceSelection(copyText));
+        pasteItem.addActionListener(actionEvent -> mainChatContent.replaceSelection(npClipboard.clipboardPaste()));
         /*
          * 删除选中内容
          */

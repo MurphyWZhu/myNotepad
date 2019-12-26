@@ -5,4 +5,7 @@ public class Test {
         String str = "aaa bbb ccc ddd ccc";
         System.out.println(str.indexOf("ccc",9));
     }
+    public Test(StringBuffer sa){
+        sa.append("a");
+    }
 }
