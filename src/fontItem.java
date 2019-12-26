@@ -9,9 +9,4 @@ public class fontItem extends JMenuItem {
         this.addActionListener(actionEvent -> JA.setForeground(color));//为按钮添加改变颜色的事件
         superMenu.add(this);//添加到其父组件上
     }
-    public fontItem(String text,JMenu superMenu, int size,JTextArea JA){
-        super(text);
-        addActionListener(actionEvent -> JA.setFont(new Font("DejaVu Sans", Font.PLAIN, size)));//为按钮添加改变字体大小的事件
-        superMenu.add(this);
-    }
 }

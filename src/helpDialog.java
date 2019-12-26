@@ -41,7 +41,7 @@ public class helpDialog extends JDialog {
                 "帮助:\n" +
                 "       显示帮助:显示次对话框\n" +
                 "       关于notepad:关于此记事本\n");
-        this.setLocation(200, 200);
+        this.setLocation(a.getX()+a.getWidth()/2-200, a.getY()+a.getHeight()/2-200);
         this.setVisible(true);
     }
 }

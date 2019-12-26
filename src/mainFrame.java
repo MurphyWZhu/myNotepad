@@ -1,8 +1,6 @@
 import javax.swing.*;
 import javax.swing.undo.UndoManager;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -17,7 +15,8 @@ public class mainFrame extends JFrame {
         JTextArea mainChatContent = new JTextArea();
         this.setTitle("Notepad");
         this.setSize(500, 500);
-
+        Dimension screenSize =Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(screenSize.width/2-250,screenSize.height/2-250);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         rightMouse NPRightMouse = new rightMouse(mainChatContent);
@@ -244,18 +243,12 @@ public class mainFrame extends JFrame {
         JCheckBoxMenuItem wrapStyleWordItem = new JCheckBoxMenuItem("换行不断词");
         wrapStyleWordItem.addActionListener(actionEvent -> mainChatContent.setWrapStyleWord(wrapStyleWordItem.isSelected()));
 
-        JMenu fontColorMenu = new JMenu("字体颜色...");
-        new fontItem("红色",fontColorMenu,Color.red,mainChatContent);
-        new fontItem("蓝色",fontColorMenu,Color.blue,mainChatContent);
-        new fontItem("黑色",fontColorMenu,Color.black,mainChatContent);
-        new fontItem("绿色",fontColorMenu,Color.green,mainChatContent);
         ViewMenu.add(lineWrapItem);
         ViewMenu.add(wrapStyleWordItem);
         ViewMenu.addSeparator();
 
         NPItem fontItem = new NPItem("字体",ViewMenu);
         fontItem.addActionListener(actionEvent -> new NPFontFrame(this,true,mainChatContent));
-        ViewMenu.add(fontColorMenu);
 
         JMenu helpMenu = new JMenu("帮助");
         menuBar.add(helpMenu);

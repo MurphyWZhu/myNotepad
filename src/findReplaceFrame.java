@@ -12,7 +12,7 @@ public class findReplaceFrame extends JDialog {
         this.setTitle("查找和替换");
         this.setLayout(layout);
         this.setSize(300, 150);
-        this.setLocation(200, 200);
+        this.setLocation(a.getX()+a.getWidth()/2-150, a.getY()+a.getHeight()/2-75);
         JLabel lbFind = new JLabel("查找");
         JLabel lbReplace = new JLabel("替换");
         JButton lastFind = new JButton("查找上一个");
@@ -65,6 +65,7 @@ public class findReplaceFrame extends JDialog {
         c.gridwidth = GridBagConstraints.REMAINDER;
         this.add(buttonReplace, c);
         this.setVisible(true);
+
     }
 }
 

@@ -31,7 +31,7 @@ public class aboutFrame extends JDialog {
         this.add(label4, c);
         this.setSize(200, 150);
         this.setResizable(false);
-        this.setLocation(200, 200);
+        this.setLocation(a.getX()+a.getWidth()/2-100, a.getY()+a.getWidth()/2-75);
         this.setVisible(true);
     }
 }
