@@ -1,12 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
+
 /*
  * aboutFrame类继承于JDialog类，用于显示关于界面
  * 根据界面排版情况使用GridBagLayout布局方式
  */
 public class aboutFrame extends JDialog {
-    public aboutFrame(Frame a, boolean b){
-        super(a,b);//调用父类的构造方法
+    public aboutFrame(Frame a, boolean b) {
+        super(a, b);//调用父类的构造方法
         GridBagLayout layout = new GridBagLayout();//新建一个布局器
         GridBagConstraints c = new GridBagConstraints();
         this.setLayout(layout);//添加布局器
@@ -31,7 +32,7 @@ public class aboutFrame extends JDialog {
         this.add(label4, c);
         this.setSize(200, 150);
         this.setResizable(false);
-        this.setLocation(a.getX()+a.getWidth()/2-100, a.getY()+a.getWidth()/2-75);
+        this.setLocation(a.getX() + a.getWidth() / 2 - 100, a.getY() + a.getWidth() / 2 - 75);
         this.setVisible(true);
     }
 }
