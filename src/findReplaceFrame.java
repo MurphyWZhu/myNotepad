@@ -6,21 +6,21 @@ import java.awt.*;
  */
 public class findReplaceFrame extends JDialog {
     public findReplaceFrame(Frame a, boolean b, JTextArea JT) {
-        super(a, b);
-        GridBagLayout layout = new GridBagLayout();
-        GridBagConstraints c = new GridBagConstraints();
-        this.setTitle("查找和替换");
-        this.setLayout(layout);
-        this.setSize(300, 150);
-        this.setLocation(a.getX()+a.getWidth()/2-150, a.getY()+a.getHeight()/2-75);
+        super(a, b);//调用父类JDialog的构造方法
+        GridBagLayout layout = new GridBagLayout();//创建布局
+        GridBagConstraints c = new GridBagConstraints();//创建容器
+        this.setTitle("查找和替换");//设置标题
+        this.setLayout(layout);//设置布局方式
+        this.setSize(300, 150);//设置大小
+        this.setLocation(a.getX()+a.getWidth()/2-150, a.getY()+a.getHeight()/2-75);//设置显示位置
         JLabel lbFind = new JLabel("查找");
         JLabel lbReplace = new JLabel("替换");
         JButton lastFind = new JButton("查找上一个");
         JButton nextFind = new JButton("查找下一个");
         JButton buttonReplace = new JButton("替换");
-        JTextField find = new JTextField(15);
+        JTextField find = new JTextField(15);//15列
         JTextField replace = new JTextField(15);
-        lastFind.addActionListener(actionEvent13 -> {
+        lastFind.addActionListener(actionEvent13 -> {//为查找上一个按钮添加事件
             if (find.getText() != null) {
                 String str = new StringBuilder(JT.getText()).reverse().toString();
                 String substr = new StringBuilder(find.getText()).reverse().toString();

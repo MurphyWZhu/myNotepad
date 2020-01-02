@@ -6,11 +6,11 @@ import java.awt.*;
  */
 public class helpDialog extends JDialog {
     public helpDialog(Frame a,boolean b){
-        super(a,b);
-        this.setTitle("帮助");
-        this.setLayout(new BorderLayout());
-        JTextArea chatContent1 = new JTextArea();
-        JScrollPane showPanel1 = new JScrollPane(chatContent1);
+        super(a,b);//调用父类JDialog的构造方法
+        this.setTitle("帮助");//设置标题
+        this.setLayout(new BorderLayout());//设置布局方式
+        JTextArea chatContent1 = new JTextArea();//创建文本域
+        JScrollPane showPanel1 = new JScrollPane(chatContent1);//创建滚动区域
         this.add(showPanel1, BorderLayout.CENTER);
         chatContent1.setEditable(false);//设置文本不可修改
         this.setSize(400, 400);

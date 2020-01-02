@@ -22,12 +22,12 @@ public class mainFrame extends JFrame {
         /*
          * 监听鼠标右键事件，用于控制显示右键菜单
          */
-        rightMouse NPRightMouse = new rightMouse(mainChatContent);
-        mainChatContent.addMouseListener(new MouseListener() {
+        rightMouse NPRightMouse = new rightMouse(mainChatContent);//创建一个右键菜单
+        mainChatContent.addMouseListener(new MouseListener() {//监听鼠标动作
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (e.getButton() == MouseEvent.BUTTON3){
-                    NPRightMouse.show(e.getComponent(),e.getX(),e.getY());
+                if (e.getButton() == MouseEvent.BUTTON3){//如果鼠标点击的为右键
+                    NPRightMouse.show(e.getComponent(),e.getX(),e.getY());//显示右键菜单
                 }
             }
 
@@ -52,12 +52,12 @@ public class mainFrame extends JFrame {
             }
         });
 
-        JScrollPane mainShowPanel = new JScrollPane(mainChatContent);
+        JScrollPane mainShowPanel = new JScrollPane(mainChatContent);//创建一个文本框
         UndoManager um = new UndoManager();//创建Undo管理器
         mainChatContent.getDocument().addUndoableEditListener(um);//将Undo管理器绑定到文本框上
         JMenuBar menuBar = new JMenuBar();//创建菜单条
-        this.setJMenuBar(menuBar);
-        JMenu menuFile = new JMenu("文件");
+        this.setJMenuBar(menuBar);//将主窗口的菜单栏设为menuBar
+        JMenu menuFile = new JMenu("文件");//文件操作菜单
         menuBar.add(menuFile);
         /*
          * 新建文件
@@ -106,9 +106,9 @@ public class mainFrame extends JFrame {
         NPItem saveItem = new NPItem("保存",menuFile);
         saveItem.addActionListener(actionEvent -> {
             if (openingFile != null) {//若有打开的文件
-                FileIO bcd = new FileIO(openingFile);
+                FileIO saveFile = new FileIO(openingFile);
                 try {
-                    bcd.writeFile(mainChatContent.getText());//将文本框的内容写入文件
+                    saveFile.writeFile(mainChatContent.getText());//将文本框的内容写入文件
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -117,14 +117,14 @@ public class mainFrame extends JFrame {
                 if (fileChooser.showSaveDialog(getContentPane()) == JFileChooser.APPROVE_OPTION) {
                     File selectedFile = fileChooser.getSelectedFile();//创建文件选择器
                     openingFile = selectedFile.getPath();//获取用户选择的路径
-                    FileIO adc = new FileIO(selectedFile.getPath());
+                    FileIO saveFile = new FileIO(selectedFile.getPath());
                     try {
-                        adc.createFile();//创建文件
+                        saveFile.createFile();//创建文件
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                     try {
-                        adc.writeFile(mainChatContent.getText());//将文本框内容写入文件
+                        saveFile.writeFile(mainChatContent.getText());//将文本框内容写入文件
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -141,14 +141,14 @@ public class mainFrame extends JFrame {
             if (fileChooser.showSaveDialog(getContentPane()) == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
                 openingFile = selectedFile.getPath();
-                FileIO adc = new FileIO(selectedFile.getPath());
+                FileIO saveAsFile = new FileIO(selectedFile.getPath());
                 try {
-                    adc.createFile();
+                    saveAsFile.createFile();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 try {
-                    adc.writeFile(mainChatContent.getText());
+                    saveAsFile.writeFile(mainChatContent.getText());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

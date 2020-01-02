@@ -9,11 +9,11 @@ public class aboutFrame extends JDialog {
     public aboutFrame(Frame a, boolean b) {
         super(a, b);//调用父类的构造方法
         GridBagLayout layout = new GridBagLayout();//新建一个布局器
-        GridBagConstraints c = new GridBagConstraints();
+        GridBagConstraints c = new GridBagConstraints();//创建一个GridBag容器
         this.setLayout(layout);//添加布局器
-        this.setTitle("关于 Notepad...");
+        this.setTitle("关于 Notepad...");//设置标题
         c.gridheight = 3;
-        JLabel label0 = new JLabel(new ImageIcon("img/notepad1.jpg"));
+        JLabel label0 = new JLabel(new ImageIcon("img/notepad1.jpg"));//插入图片
         JLabel label1 = new JLabel();
         label1.setText("Notepad");
         JLabel label2 = new JLabel();

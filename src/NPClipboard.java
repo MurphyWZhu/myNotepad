@@ -17,8 +17,8 @@ public class NPClipboard {
      * 将文本复制到系统剪贴板
      */
     public void clipboardCopy(String copyStr) {
-        Transferable transferable = new StringSelection(copyStr);
-        clipboard.setContents(transferable, null);
+        Transferable transferable = new StringSelection(copyStr);//将传入的文本创建为transferable类型
+        clipboard.setContents(transferable, null);//将系统剪贴板设置为transferable
     }
     /*
      * 将系统剪贴板的内容粘贴到文本框
